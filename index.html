@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>movie</title>
+</head>
+<body>
+    <input oninput="getdata()" type="text" id="query">
+    <div id="container"></div>
+</body>
+</html>
+<script>
+
+
+
+//    let url= `http://www.omdbapi.com/?s=${q}&apikey=6af64fbe`
+  
+
+async function getdata(){
+    let query=document.getElementById("query").value
+
+    let url=`http://www.omdbapi.com/?s=${query}&apikey=6af64fbe`
+
+    let res=await fetch(url);
+
+    let data=await res.json();
+    console.log(data)
+    append(data.Search)
+}
+// getdata()
+
+function append(data){
+    let container=document.getElementById("container")
+    container.innerHTML=null
+    if(data===undefined){
+        return false
+    }
+
+    data.forEach(function(el){
+
+        let p=document.createElement("p")
+        p.innerText=el.Title
+
+        let img=document.createElement("img")
+        img.src=el.Poster
+
+       let year= document.createElement("p")
+       year.innerText=`Year:${el.Year}`
+
+       let imdb=document.createElement("p")
+       imdb.innerText=`imdb:${el.imdbID}`
+
+        container.append(p,img,year,imdb)
+
+    })
+}
+
+
+
+
+
+</script>
